@@ -69,8 +69,6 @@ func analyzeHighestValuePath(data [][]int) (int, error) {
 
 // Handler for cobra command, the handler read dataset and analyze it
 func Handler(cmd *cobra.Command, args []string) {
-	fmt.Println("Running challenge1 command")
-
 	// read input from json file
 	data, err := readInputFile()
 	if err != nil {
