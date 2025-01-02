@@ -10,6 +10,7 @@ import (
 func main() {
 	app := &cobra.Command{Use: "7solutions"}
 
+	// register commands
 	app.AddCommand(
 		&cobra.Command{
 			Use:   "challenge1",
