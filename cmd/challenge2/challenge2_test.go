@@ -55,8 +55,8 @@ func TestDecode(t *testing.T) {
 			} else {
 				if err != nil {
 					t.Errorf("Decode(%q) failed with error: %v", tt.in, err)
-				} else if result.answer != tt.expected {
-					t.Errorf("Decode(%q) = %q; want %q", tt.in, result.answer, tt.expected)
+				} else if result.optimal != tt.expected {
+					t.Errorf("Decode(%q) = %q; want %q", tt.in, result.optimal, tt.expected)
 				}
 			}
 		})

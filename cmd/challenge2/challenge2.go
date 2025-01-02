@@ -13,7 +13,7 @@ import (
 
 type DecodeResult struct {
 	solutions []string
-	answer    string
+	optimal   string
 }
 
 // isValid check if input and output are align with our constraints
@@ -77,17 +77,17 @@ func backtrack(in, out string, solutions []string) []string {
 	return solutions
 }
 
-// getLowestSumSolution takes all solutions to find only one with the lowest sum value
-func getLowestSumSolution(solutions []string) (string, error) {
-	lowest := 0
+// getOptimalSolution takes all solutions to find only one with the lowest sum value
+func getOptimalSolution(solutions []string) (string, error) {
+	value := 0
 	solution := ""
 	for _, s := range solutions {
 		sum, err := numericStringSum(s)
 		if err != nil {
 			return "", fmt.Errorf("failed to calculate sum for numeric string %q", s)
 		}
-		if lowest == 0 || sum < lowest {
-			lowest = sum
+		if value == 0 || sum < value {
+			value = sum
 			solution = s
 		}
 	}
@@ -132,14 +132,14 @@ func Decode(in string) (DecodeResult, error) {
 		return DecodeResult{}, fmt.Errorf("cannot found solution for %q", in)
 	}
 
-	answer, err := getLowestSumSolution(solutions)
+	answer, err := getOptimalSolution(solutions)
 	if err != nil {
 		return DecodeResult{}, err
 	}
 
 	return DecodeResult{
 		solutions: solutions,
-		answer:    answer,
+		optimal:   answer,
 	}, nil
 }
 
@@ -162,7 +162,7 @@ func Handler(cmd *cobra.Command, args []string) {
 
 	// answer
 	fmt.Printf("Total solution: %d\n", len(out.solutions))
-	fmt.Printf("Best solution: %v\n", out.answer)
+	fmt.Printf("Best solution: %v\n", out.optimal)
 
 	// dump solutions if needed
 	if dump {
