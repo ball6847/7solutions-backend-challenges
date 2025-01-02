@@ -1,6 +1,7 @@
 package challenge2
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -58,26 +59,22 @@ func isValid(in string, out string, partial bool) bool {
 }
 
 // backtrack running to find all the possible solutions for a given input based on our constraints
-func backtrack(in string, out string, solutions *[]string) string {
-	// output length reached, fully validate
+func backtrack(in, out string, solutions []string) []string {
 	if len(out)-len(in) == 1 {
 		if isValid(in, out, false) {
-			*solutions = append(*solutions, out)
+			return append(solutions, out)
 		}
-		return ""
+		return solutions
 	}
 
 	for i := 0; i < 10; i++ {
 		candidate := fmt.Sprintf("%s%d", out, i)
 		if isValid(in, candidate, true) {
-			res := backtrack(in, candidate, solutions)
-			if res != "" {
-				return res
-			}
+			solutions = backtrack(in, candidate, solutions)
 		}
 	}
 
-	return ""
+	return solutions
 }
 
 // getLowestSumSolution takes all solutions to find only one with the lowest sum value
@@ -125,8 +122,11 @@ func dumpSolution(solutions *[]string) error {
 // Decode run input against our backtrack algorithm
 // returns all possible solutions from backtrack along with the best answer
 func Decode(in string) (DecodeResult, error) {
-	solutions := []string{}
-	backtrack(in, "", &solutions)
+	if in == "" {
+		return DecodeResult{}, errors.New("no input")
+	}
+
+	solutions := backtrack(in, "", []string{})
 
 	if len(solutions) == 0 {
 		return DecodeResult{}, fmt.Errorf("cannot found solution for %q", in)
