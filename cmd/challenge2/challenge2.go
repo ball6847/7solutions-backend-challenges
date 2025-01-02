@@ -107,9 +107,9 @@ func numericStringSum(num string) (int, error) {
 	return total, nil
 }
 
-func dumpSolution(solutions *[]string) error {
+func dumpSolution(solutions []string) error {
 	// Join the slice into a single string with newlines
-	content := strings.Join(*solutions, "\n")
+	content := strings.Join(solutions, "\n")
 
 	// Write the string to a file
 	err := os.WriteFile("solutions.txt", []byte(content), 0644)
@@ -166,7 +166,7 @@ func Handler(cmd *cobra.Command, args []string) {
 
 	// dump solutions if needed
 	if dump {
-		err := dumpSolution(&out.solutions)
+		err := dumpSolution(out.solutions)
 		if err != nil {
 			fmt.Println("Failed to dump solutions to solutions.txt: ", err)
 		} else {
