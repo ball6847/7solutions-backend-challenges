@@ -19,7 +19,7 @@ type DecodeResult struct {
 func isValid(in string, out string, partial bool) bool {
 	input := ""
 
-	// strip input to match with output length+1 to allow partially checking if needed
+	// strip input to match with output length-1 to allow partially checking if needed
 	if partial {
 		input = in[:len(out)-1]
 	} else {
@@ -32,29 +32,24 @@ func isValid(in string, out string, partial bool) bool {
 	}
 
 	for i, char := range input {
-		// try to parse left and right number as int so we can do numerical comparison
-		left, err := strconv.Atoi(string(out[i]))
-		if err != nil {
-			return false
-		}
+		left := int(out[i] - '0')    // Convert char to int
+		right := int(out[i+1] - '0') // Convert next char to int
 
-		right, err := strconv.Atoi(string(out[i+1]))
-		if err != nil {
-			return false
-		}
-
-		// "L" means number on the left is greater than number on the right
-		// "R" means number on the right is greater than number on the left
-		// "=" means number on the left is equal to number on the right
-		// any unexpected char will immediately make string invalid
-		if char == 'L' && left > right {
-			continue
-		} else if char == 'R' && left < right {
-			continue
-		} else if char == '=' && left == right {
-			continue
-		} else {
-			return false
+		switch char {
+		case 'L':
+			if left <= right {
+				return false
+			}
+		case 'R':
+			if left >= right {
+				return false
+			}
+		case '=':
+			if left != right {
+				return false
+			}
+		default:
+			return false // Invalid character in input
 		}
 	}
 
@@ -64,6 +59,7 @@ func isValid(in string, out string, partial bool) bool {
 
 // backtrack running to find all the possible solutions for a given input based on our constraints
 func backtrack(in string, out string, solutions *[]string) string {
+	// output length reached, fully validate
 	if len(out)-len(in) == 1 {
 		if isValid(in, out, false) {
 			*solutions = append(*solutions, out)
@@ -72,7 +68,7 @@ func backtrack(in string, out string, solutions *[]string) string {
 	}
 
 	for i := 0; i < 10; i++ {
-		candidate := out + strconv.Itoa(i)
+		candidate := fmt.Sprintf("%s%d", out, i)
 		if isValid(in, candidate, true) {
 			res := backtrack(in, candidate, solutions)
 			if res != "" {
