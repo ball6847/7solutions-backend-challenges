@@ -1,0 +1,23 @@
+version: '3'
+
+tasks:
+  install:
+    cmds:
+      - go install github.com/mitranim/gow@latest
+      - go get -d ./...
+    silent: true
+
+  challenge1:
+    cmds:
+      - go run . challenge1
+    silent: true
+
+  challenge2:
+    cmds:
+      - go run . challenge2 --dump-solutions
+    silent: true
+
+  challenge3:
+    cmds:
+      - gow -c run . challenge3
+    silent: true

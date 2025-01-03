@@ -3,6 +3,7 @@ package main
 import (
 	"7solution/cmd/challenge1"
 	"7solution/cmd/challenge2"
+	"7solution/cmd/challenge3"
 	"log"
 
 	"github.com/spf13/cobra"
@@ -25,10 +26,17 @@ func main() {
 
 	challenge2Cmd.Flags().Bool("dump-solutions", false, "Dump all solutions to a solutions.txt file at current directory")
 
+	challenge3Cmd := &cobra.Command{
+		Use:   "challenge3",
+		Short: "Start api server for challenge3",
+		Run:   challenge3.Handler,
+	}
+
 	// register commands
 	app.AddCommand(
 		challenge1Cmd,
 		challenge2Cmd,
+		challenge3Cmd,
 	)
 
 	if err := app.Execute(); err != nil {
