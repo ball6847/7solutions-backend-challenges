@@ -1,6 +1,7 @@
 package challenge1
 
 import (
+	"7solution/util"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -27,14 +28,6 @@ func readInputFile() ([][]int, error) {
 	return data, nil
 }
 
-// Max returns the larger of two integers
-func Max(a, b int) int {
-	if a > b {
-		return a
-	}
-	return b
-}
-
 // analyzeMaxPathSum takes dataset and analyze Maximum Path Sum in a Triangle using bottom-up dynamic programming
 func analyzeMaxPathSum(data [][]int) int {
 	total := len(data)
@@ -48,7 +41,7 @@ func analyzeMaxPathSum(data [][]int) int {
 		for n, val := range data[i-1] {
 			// pick left or right value from connected accumulated node using max() function
 			// add it to active node and append it to temporary accumulated values for current row
-			curr = append(curr, val+Max(acc[n], acc[n+1]))
+			curr = append(curr, val+util.Max(acc[n], acc[n+1]))
 		}
 		// promote accumulated values for the next iteration
 		acc = curr

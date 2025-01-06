@@ -15,11 +15,14 @@ func Serve() {
 
 	// services
 	http := req.C()
-	baconipsum := service.NewBaconipsumClient(http)
+	baconipsumClient := service.NewBaconipsumClient(http)
 	wordCounter := service.WordCounter{}
 
 	// controllers
-	beefController := controller.NewBeefController(&wordCounter, baconipsum)
+	beefController := controller.BeefController{
+		WordCounter: &wordCounter,
+		Baconipsum:  baconipsumClient,
+	}
 
 	// routings
 	router.GET("/beef/summary", beefController.SummaryHandler)

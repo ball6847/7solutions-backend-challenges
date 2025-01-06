@@ -8,18 +8,8 @@ import (
 )
 
 type BeefController struct {
-	wordCounter *service.WordCounter
-	baconipsum  service.BaconipsumGetter
-}
-
-func NewBeefController(
-	wordCounter *service.WordCounter,
-	baconipsum service.BaconipsumGetter,
-) *BeefController {
-	return &BeefController{
-		wordCounter: wordCounter,
-		baconipsum:  baconipsum,
-	}
+	WordCounter *service.WordCounter
+	Baconipsum  service.BaconipsumGetter
 }
 
 // SummaryHandler fetch data from baconipsum and extract meat out of the content
@@ -32,7 +22,7 @@ func (ctrl *BeefController) SummaryHandler(c *gin.Context) {
 	}
 
 	// retrieve content from baconipsum
-	text, err := ctrl.baconipsum.Get(beefType)
+	text, err := ctrl.Baconipsum.Get(beefType)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  http.StatusInternalServerError,
@@ -42,7 +32,7 @@ func (ctrl *BeefController) SummaryHandler(c *gin.Context) {
 	}
 
 	// processing text
-	summary := ctrl.wordCounter.CountAllWord(text)
+	summary := ctrl.WordCounter.CountAllWord(text)
 
 	c.JSON(http.StatusOK, gin.H{
 		"beef": summary,
