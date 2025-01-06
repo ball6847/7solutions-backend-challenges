@@ -25,6 +25,7 @@ Usage:
 Available Commands:
   challenge1  Run and see the result for challenge1
   challenge2  Run and see the result for challenge2
+  challenge3  Start api server for challenge3
   completion  Generate the autocompletion script for the specified shell
   help        Help about any command
 
@@ -70,14 +71,17 @@ All solutions has been dumped to solutions.txt
 
 Then check out `solutions.txt` for the possible solutions
 
+### Challenge 3
+
+Challenge 3 is rest api implemented using Gin.
+
+```
+$ go run . challenge3
+```
+
+The server will be available at `http://localhost:5555/beef/summary`
+
 ## Running the tests
 
 ```
 $ go test ./...
-?       7solution       [no test files]
-ok      7solution/cmd/challenge1        (cached)
-ok      7solution/cmd/challenge2        0.013s
-```
-## TODO
-
-- Finish challenge 3
