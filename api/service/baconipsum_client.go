@@ -20,6 +20,7 @@ func NewBaconipsumClient(http *req.Client) *BaconipsumClient {
 	}
 }
 
+// Get fetch bacon ipsum text from baconipsum api
 func (bacon *BaconipsumClient) Get(t string) (string, error) {
 	if t != "meat-and-filler" && t != "all-meat" {
 		return "", errors.New("invalid meat type for baconipsum api")
