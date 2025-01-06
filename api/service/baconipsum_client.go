@@ -8,6 +8,11 @@ import (
 	"github.com/patrickmn/go-cache"
 )
 
+// BaconipsumGetter is an interface for getting bacon ipsum text, we will need this for testing
+type BaconipsumGetter interface {
+	Get(string) (string, error)
+}
+
 type BaconipsumClient struct {
 	http  *req.Client
 	cache *cache.Cache
